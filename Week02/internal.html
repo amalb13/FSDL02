@@ -1,0 +1,81 @@
+<!-- internal.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Internal Styling Example</title>
+  <style>
+    body {
+      background-color: #fffaf0;
+      font-family: 'Georgia', serif;
+      color: #333;
+    }
+    h1 {
+      color: #8a2be2;
+      text-align: center;
+    }
+    p {
+      font-size: 16px;
+      color: #2e8b57;
+      line-height: 1.6;
+    }
+
+    /* Table styles */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2; /* CSS3 selector: even rows with a background */
+    }
+
+    /* List styles */
+    ul {
+      list-style-type: square;
+    }
+    ul li:hover {
+      color: #ff4500; /* Pseudo-class: changes color on hover */
+    }
+
+    /* Pseudo-element to add content before the paragraph */
+    p::before {
+      content: "Note: ";
+      font-weight: bold;
+      color: #d2691e;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Welcome to Internal Styling</h1>
+  <p>This paragraph has internal CSS applied directly in the head section. Notice the hover effect and pseudo-element applied.</p>
+
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Age</th>
+    </tr>
+    <tr>
+      <td>John</td>
+      <td>25</td>
+    </tr>
+    <tr>
+      <td>Alice</td>
+      <td>30</td>
+    </tr>
+  </table>
+
+  <ul>
+    <li>Item 1</li>
+    <li>Item 2</li>
+    <li>Item 3</li>
+  </ul>
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+/* external.css */
+body {
+    background-color: #faf0e6;
+    font-family: 'Verdana', sans-serif;
+    color: #333;
+  }
+  
+  h1 {
+    color: #ff1493;
+    text-align: center;
+  }
+  
+  p {
+    font-size: 18px;
+    color: #4682b4;
+    line-height: 1.6;
+  }
+  
+  /* Table styles */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: left;
+  }
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  /* List styles */
+  ul {
+    list-style-type: circle;
+  }
+  ul li:hover {
+    color: #32cd32; /* Pseudo-class: changes color on hover */
+  }
+  
+  /* Pseudo-element to add content before the paragraph */
+  p::before {
+    content: "Info: ";
+    font-weight: bold;
+    color: #ff6347;
+  }
+  
