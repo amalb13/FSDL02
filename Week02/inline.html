@@ -10,7 +10,17 @@
 
   <h1 style="color: #ff6347; text-align: center;">Welcome to Inline Styling</h1>
   <p style="font-size: 18px; color: #4682b4; line-height: 1.6;">This is a paragraph with inline CSS applied directly in the HTML file. Notice the colors, font, and spacing.</p>
+    <style>
+  a[href="internal.html"] {
+    text-decoration: none; /* Remove underline from link */
+    color: blue; /* Set the color of the link */
+  }
 
+  /* Hover effect for the specific link */
+  a[href="internal.html"]:hover {
+    color: red; /* Change color to red when hovered */
+    text-decoration: underline; 
+    </style>
   <table border="1" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
     <tr>
       <th style="padding: 8px;">Name</th>
@@ -34,6 +44,8 @@
     <li style="color: #093474;">Item 2</li>
     <li style="color: #090852;">Item 3</li>
   </ul>
+  <a href="internal.html" >Click for internal.html!</a>
+  
 
 </body>
 </html>
