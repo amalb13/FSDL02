@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .expense-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .input-section {
+            margin-bottom: 20px;
+        }
+        .input-section input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .expense-list {
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .expense-item {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .expense-item:last-child {
+            border-bottom: none;
+        }
+        .total {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="expense-container">
+        <h1>Expense Tracker</h1>
+        <div class="input-section">
+            <input type="text" id="expenseName" placeholder="Expense Name">
+            <input type="number" id="expenseAmount" placeholder="Expense Amount" min="0">
+        </div>
+        <button onclick="addExpense()">Add Expense</button>
+        <div class="expense-list" id="expenseList"></div>
+        <div class="total" id="totalAmount">Total: $0</div>
+    </div>
+
+    <script>
+        let expenses = [];  // Array to store expenses
+
+        // Function to add expense
+        function addExpense() {
+            const name = document.getElementById("expenseName").value;
+            const amount = parseFloat(document.getElementById("expenseAmount").value);
+
+            // Validate input
+            if (name === "" || isNaN(amount) || amount <= 0) {
+                alert("Please enter valid expense name and amount.");
+                return;
+            }
+
+            // Add the new expense to the array
+            const expense = { name: name, amount: amount };
+            expenses.push(expense);
+
+            // Clear input fields
+            document.getElementById("expenseName").value = "";
+            document.getElementById("expenseAmount").value = "";
+
+            // Update the expense list and total
+            updateExpenseList();
+            updateTotalAmount();
+        }
+
+        // Function to update the expense list
+        function updateExpenseList() {
+            const expenseList = document.getElementById("expenseList");
+            expenseList.innerHTML = "";  // Clear current list
+
+            expenses.forEach((expense, index) => {
+                const expenseItem = document.createElement("div");
+                expenseItem.classList.add("expense-item");
+
+                expenseItem.innerHTML = `
+                    ${expense.name}: $${expense.amount.toFixed(2)}
+                    <button onclick="removeExpense(${index})" style="background-color: #dc3545; color: white; padding: 5px 10px; border-radius: 5px; border: none; cursor: pointer;">Remove</button>
+                `;
+                expenseList.appendChild(expenseItem);
+            });
+        }
+
+        // Function to update the total amount
+        function updateTotalAmount() {
+            const totalAmount = expenses.reduce((total, expense) => total + expense.amount, 0);
+            document.getElementById("totalAmount").textContent = `Total: $${totalAmount.toFixed(2)}`;
+        }
+
+        // Function to remove expense
+        function removeExpense(index) {
+            expenses.splice(index, 1);  // Remove the expense at the given index
+            updateExpenseList();
+            updateTotalAmount();
+        }
+    </script>
+
+</body>
+</html>

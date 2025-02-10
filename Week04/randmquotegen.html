@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Quote Generator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #6f42c1, #ff5733);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .quote-container {
+            text-align: center;
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            transition: transform 0.3s ease-in-out;
+        }
+        .quote-container:hover {
+            transform: scale(1.05);
+        }
+        #quote {
+            font-size: 28px;
+            font-style: italic;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        #author {
+            font-size: 22px;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 12px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-3px);
+        }
+        button:active {
+            background-color: #004494;
+            transform: translateY(1px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="quote-container">
+        <h1 style="font-size: 36px; color: #fff;">Random Quote Generator</h1>
+        <div id="quote">Click the button to generate a quote!</div>
+        <div id="author"></div>
+        <br>
+        <button onclick="generateQuote()">Generate Quote</button>
+    </div>
+
+    <script>
+        const quotes = [
+            {
+                quote: "The only limit to our realization of tomorrow is our doubts of today.",
+                author: "Franklin D. Roosevelt"
+            },
+            {
+                quote: "The best way to predict the future is to invent it.",
+                author: "Alan Kay"
+            },
+            {
+                quote: "Life is 10% what happens to us and 90% how we react to it.",
+                author: "Charles R. Swindoll"
+            },
+            {
+                quote: "Success is not final, failure is not fatal: It is the courage to continue that counts.",
+                author: "Winston Churchill"
+            },
+            {
+                quote: "The only way to do great work is to love what you do.",
+                author: "Steve Jobs"
+            },
+            {
+                quote: "In the middle of every difficulty lies opportunity.",
+                author: "Albert Einstein"
+            },
+            {
+                quote: "Believe you can and you're halfway there.",
+                author: "Theodore Roosevelt"
+            },
+            {
+                quote: "It does not matter how slowly you go as long as you do not stop.",
+                author: "Confucius"
+            }
+        ];
+
+        function generateQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            const randomQuote = quotes[randomIndex];
+            document.getElementById('quote').textContent = `"${randomQuote.quote}"`;
+            document.getElementById('author').textContent = `- ${randomQuote.author}`;
+        }
+    </script>
+
+</body>
+</html>

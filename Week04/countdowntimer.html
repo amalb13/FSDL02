@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .timer-container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #timer {
+            font-size: 48px;
+            font-weight: bold;
+            color: #333;
+        }
+        input[type="number"] {
+            padding: 10px;
+            font-size: 16px;
+            width: 100px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="timer-container">
+        <h1>Countdown Timer</h1>
+        <input type="number" id="duration" placeholder="Duration (seconds)" min="1">
+        <button onclick="startTimer()">Start</button>
+        <button onclick="resetTimer()" disabled id="resetButton">Reset</button>
+        <div id="timer">00:00</div>
+    </div>
+
+    <script>
+        let countdown;
+        let durationInput = document.getElementById('duration');
+        let timerDisplay = document.getElementById('timer');
+        let resetButton = document.getElementById('resetButton');
+
+        function startTimer() {
+            const duration = parseInt(durationInput.value);
+            if (isNaN(duration) || duration <= 0) {
+                alert('Please enter a valid duration (in seconds).');
+                return;
+            }
+
+            let timeLeft = duration;
+            updateTimerDisplay(timeLeft);
+
+            // Disable start button and enable reset button
+            document.querySelector('button').disabled = true;
+            resetButton.disabled = false;
+
+            // Start the countdown
+            countdown = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay(timeLeft);
+
+                if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                    alert('Time is up!');
+                    resetTimer();
+                }
+            }, 1000);
+        }
+
+        function resetTimer() {
+            clearInterval(countdown);
+            timerDisplay.textContent = '00:00';
+            durationInput.value = '';
+            document.querySelector('button').disabled = false;
+            resetButton.disabled = true;
+        }
+
+        function updateTimerDisplay(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+        }
+    </script>
+
+</body>
+</html>
