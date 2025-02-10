@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Operators Example</title>
+</head>
+<body>
+
+    <h1>JavaScript Operators Example</h1>
+    
+    <button onclick="calculate()">Click Me to Perform Calculation</button>
+    
+    <p id="output"></p>
+
+    <script type="text/javascript">
+        // ES5 variables
+        var num1 = 10;
+        var num2 = 5;
+        var result;
+        
+        // Function to perform calculations using different operators
+        function calculate() {
+            // Arithmetic Operators
+            result = num1 + num2; // Addition
+            result += 5;           // Addition Assignment
+            
+            // Comparison Operators
+            var isEqual = (num1 == num2); // Equal to comparison
+            var isNotEqual = (num1 != num2); // Not equal comparison
+
+            // Logical Operators
+            var isBothTrue = (num1 > num2 && num1 > 0); // AND operation
+            var isOneTrue = (num1 > num2 || num1 < 0); // OR operation
+
+            // Displaying the result
+            var message = "Result of Addition: " + result + "<br>" +
+                          "Is num1 equal to num2? " + isEqual + "<br>" +
+                          "Is num1 not equal to num2? " + isNotEqual + "<br>" +
+                          "Is num1 greater than num2 and num1 positive? " + isBothTrue + "<br>" +
+                          "Is num1 greater than num2 or num1 negative? " + isOneTrue;
+            
+            document.getElementById("output").innerHTML = message;
+        }
+    </script>
+
+</body>
+</html>

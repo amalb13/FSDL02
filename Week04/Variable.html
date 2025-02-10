@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Variables Example</title>
+</head>
+<body>
+
+    <h1>Welcome to JavaScript Variables Example</h1>
+    
+    <button onclick="displayMessage()">Click Me</button>
+
+    <p id="output"></p>
+
+    <script type="text/javascript">
+        // ES5 variable declaration
+        var name = "John Doe";  // String variable
+        var age = 25;           // Number variable
+        var isStudent = true;   // Boolean variable
+        
+        // Function to display a message
+        function displayMessage() {
+            var message = "Hello, my name is " + name + ", I am " + age + " years old, and it is " + isStudent + " that I am a student.";
+            document.getElementById("output").innerText = message;
+        }
+    </script>
+
+</body>
+</html>

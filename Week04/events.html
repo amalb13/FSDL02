@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Event Example</title>
+</head>
+<body>
+
+  <h1>Click the Button to Change the Text</h1>
+  <button id="changeTextButton">Greet Back!</button>
+  <p id="text">Good Morning.</p>
+
+  <script>
+    // Event listener for button click
+    document.getElementById("changeTextButton").addEventListener("click", function() {
+      document.getElementById("text").innerHTML = "Good day to u!";
+    });
+  </script>
+
+</body>
+</html>

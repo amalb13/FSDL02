@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>JavaScript Class Methods</h1>
+<p>Enter car details to calculate its age.</p>
+
+<label for="carName">Car Name: </label>
+<input type="text" id="carName" placeholder="e.g., Ford"><br><br>
+<label for="carYear">Car Year: </label>
+<input type="number" id="carYear" placeholder="e.g., 2005"><br><br>
+
+<button onclick="showCarAge()">Calculate Car Age</button>
+
+<p id="demo"></p>
+
+<script>
+class Car {
+  constructor(name, year) {
+    this.name = name;
+    this.year = year;
+  }
+
+  age() {
+    const date = new Date();
+    return date.getFullYear() - this.year;
+  }
+}
+
+function showCarAge() {
+  const name = document.getElementById("carName").value;
+  const year = document.getElementById("carYear").value;
+  
+  if (name && year) {
+    const myCar = new Car(name, parseInt(year));
+    document.getElementById("demo").innerHTML =
+    "Your car, a " + myCar.name + ", is " + myCar.age() + " years old.";
+  } else {
+    document.getElementById("demo").innerHTML = "Please enter both the car name and year.";
+  }
+}
+</script>
+
+</body>
+</html>
