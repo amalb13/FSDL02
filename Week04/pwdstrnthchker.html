@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Strength Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        .password-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        input[type="password"],
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .strength-meter {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .strength-meter::after {
+            content: '';
+            display: block;
+            height: 100%;
+            width: 0;
+            border-radius: 5px;
+            background-color: red;
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+        .strength-weak::after {
+            width: 25%;
+            background-color: red;
+        }
+        .strength-medium::after {
+            width: 50%;
+            background-color: orange;
+        }
+        .strength-strong::after {
+            width: 75%;
+            background-color: yellow;
+        }
+        .strength-very-strong::after {
+            width: 100%;
+            background-color: green;
+        }
+        .strength-text {
+            font-size: 14px;
+            color: #333;
+        }
+        .show-password {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="password-container">
+        <h1>Password Strength Checker</h1>
+        <input type="password" id="passwordInput" placeholder="Enter your password" oninput="checkPasswordStrength()">
+        <div class="show-password">
+            <label for="showPasswordCheckbox">
+                <input type="checkbox" id="showPasswordCheckbox"> Show Password
+            </label>
+        </div>
+        <div class="strength-meter" id="strengthMeter"></div>
+        <div class="strength-text" id="strengthText"></div>
+    </div>
+
+    <script>
+        // Function to check the strength of the password
+        function checkPasswordStrength() {
+            const password = document.getElementById('passwordInput').value;
+            const strengthMeter = document.getElementById('strengthMeter');
+            const strengthText = document.getElementById('strengthText');
+
+            // Reset strength meter and text
+            strengthMeter.className = 'strength-meter';
+            strengthText.textContent = '';
+
+            if (password.length === 0) {
+                return; // Exit if password is empty
+            }
+
+            // Define criteria
+            const hasLowerCase = /[a-z]/.test(password);
+            const hasUpperCase = /[A-Z]/.test(password);
+            const hasNumbers = /\d/.test(password);
+            const hasSpecialChars = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+            const isLongEnough = password.length >= 8;
+
+            // Calculate strength score
+            let strengthScore = 0;
+            if (hasLowerCase) strengthScore++;
+            if (hasUpperCase) strengthScore++;
+            if (hasNumbers) strengthScore++;
+            if (hasSpecialChars) strengthScore++;
+            if (isLongEnough) strengthScore++;
+
+            // Update strength meter and text
+            switch (strengthScore) {
+                case 0:
+                case 1:
+                    strengthMeter.classList.add('strength-weak');
+                    strengthText.textContent = 'Weak';
+                    break;
+                case 2:
+                    strengthMeter.classList.add('strength-medium');
+                    strengthText.textContent = 'Medium';
+                    break;
+                case 3:
+                    strengthMeter.classList.add('strength-strong');
+                    strengthText.textContent = 'Strong';
+                    break;
+                case 4:
+                case 5:
+                    strengthMeter.classList.add('strength-very-strong');
+                    strengthText.textContent = 'Very Strong';
+                    break;
+            }
+        }
+
+        // Function to toggle the visibility of the password
+        document.getElementById('showPasswordCheckbox').addEventListener('change', function() {
+            const passwordInput = document.getElementById('passwordInput');
+            if (this.checked) {
+                passwordInput.type = 'text';  // Show the password
+            } else {
+                passwordInput.type = 'password';  // Hide the password
+            }
+        });
+    </script>
+
+</body>
+</html>

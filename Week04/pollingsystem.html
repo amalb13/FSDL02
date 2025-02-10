@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Polling System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        h1 {
+            color: #333;
+        }
+        .poll-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        .poll-option {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #fff;
+            transition: background-color 0.3s;
+        }
+        .poll-option:hover {
+            background-color: #f1f1f1;
+        }
+        .poll-results {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e9e9e9;
+            border-radius: 5px;
+        }
+        .poll-results h3 {
+            margin-top: 0;
+        }
+        .poll-results div {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="poll-container">
+        <h1>Poll: What's your favorite programming language?</h1>
+        <div class="poll-option" onclick="vote('JavaScript')">JavaScript</div>
+        <div class="poll-option" onclick="vote('Python')">Python</div>
+        <div class="poll-option" onclick="vote('Java')">Java</div>
+        <div class="poll-option" onclick="vote('C++')">C++</div>
+
+        <div class="poll-results">
+            <h3>Results:</h3>
+            <div id="results"></div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize vote counts
+        const votes = {
+            JavaScript: 0,
+            Python: 0,
+            Java: 0,
+            'C++': 0
+        };
+
+        // Function to handle voting
+        function vote(option) {
+            votes[option]++;
+            updateResults();
+        }
+
+        // Function to update and display results
+        function updateResults() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = ''; // Clear previous results
+
+            for (const [option, count] of Object.entries(votes)) {
+                const resultItem = document.createElement('div');
+                resultItem.textContent = `${option}: ${count} votes`;
+                resultsDiv.appendChild(resultItem);
+            }
+        }
+
+        // Initialize results display
+        updateResults();
+    </script>
+
+</body>
+</html>
