@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restaurant Cart System</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-top: 30px;
+    }
+
+    /* Menu Styles */
+    .menu {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .item {
+      border: 1px solid #e0e0e0;
+      padding: 20px;
+      text-align: center;
+      width: 200px;
+      border-radius: 12px;
+      background: #fff;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .item h3 {
+      font-size: 1.2rem;
+      margin: 0 0 10px;
+      color: #34495e;
+    }
+
+    .item button {
+      background: #28a745;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+    }
+
+    .item button:hover {
+      background: #218838;
+    }
+
+    /* Cart Styles */
+    .cart {
+      border-top: 2px solid #e0e0e0;
+      padding-top: 20px;
+    }
+
+    .cart-items {
+      list-style: none;
+      padding: 0;
+    }
+
+    .cart-items li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      border-bottom: 1px solid #e0e0e0;
+      font-size: 1.1rem;
+    }
+
+    .cart-items li button {
+      background: #dc3545;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      transition: background 0.3s ease;
+    }
+
+    .cart-items li button:hover {
+      background: #c82333;
+    }
+
+    .total {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #28a745;
+      text-align: right;
+      margin-top: 20px;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .cart-items li {
+      animation: fadeIn 0.5s ease;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Restaurant Menu</h1>
+    <div class="menu">
+      <div class="item" data-name="Burger" data-price="60">
+        <h3>Burger - ₹60</h3>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+      <div class="item" data-name="Pizza" data-price="250">
+        <h3>Pizza - ₹250</h3>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+      <div class="item" data-name="Chole Bhature" data-price="100">
+        <h3>Chole Bhature - ₹100</h3>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+      <div class="item" data-name="Biriyani" data-price="149">
+        <h3>Biriyani - ₹149</h3>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+
+    <h2>Your Cart</h2>
+    <div class="cart">
+      <ul class="cart-items"></ul>
+      <p>Total: ₹<span class="total">0.00</span></p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const cartItems = [];
+      const cartList = document.querySelector(".cart-items");
+      const totalElement = document.querySelector(".total");
+
+      // Add to cart functionality
+      document.querySelectorAll(".add-to-cart").forEach((button) => {
+        button.addEventListener("click", (e) => {
+          const item = e.target.closest(".item");
+          const itemName = item.getAttribute("data-name");
+          const itemPrice = parseFloat(item.getAttribute("data-price"));
+
+          // Check if item already exists in cart
+          const existingItem = cartItems.find((cartItem) => cartItem.name === itemName);
+          if (existingItem) {
+            existingItem.quantity += 1;
+          } else {
+            cartItems.push({ name: itemName, price: itemPrice, quantity: 1 });
+          }
+
+          updateCart();
+        });
+      });
+
+      // Update cart display
+      function updateCart() {
+        cartList.innerHTML = "";
+        let total = 0;
+
+        cartItems.forEach((item, index) => {
+          const li = document.createElement("li");
+          li.innerHTML = `
+            ${item.name} x${item.quantity} - ₹${(item.price * item.quantity).toFixed(2)}
+            <button onclick="removeItem(${index})">Remove</button>
+          `;
+          cartList.appendChild(li);
+          total += item.price * item.quantity;
+        });
+
+        totalElement.textContent = total.toFixed(2);
+      }
+
+      // Remove item from cart
+      window.removeItem = (index) => {
+        cartItems.splice(index, 1);
+        updateCart();
+      };
+    });
+  </script>
+</body>
+</html>
