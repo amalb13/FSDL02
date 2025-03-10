@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galactic Carbon Footprint Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styling */
+        body {
+            font-family: 'Orbitron', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: radial-gradient(circle, #0b0c1f, #1a1a2e);
+            color: #fff;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Stars Background */
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.5;
+            z-index: 0;
+        }
+
+        /* Container Styling */
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            max-width: 600px;
+            width: 100%;
+            animation: zoomIn 1s ease-in-out;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Heading Styling */
+        h1 {
+            margin-bottom: 20px;
+            font-size: 3rem;
+            color: #00ff88;
+            text-shadow: 0 0 20px #00ff88, 0 0 40px #00ff88;
+        }
+
+        /* Form Styling */
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-size: 1.2rem;
+            color: #ccc;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input:focus {
+            border-color: #00ff88;
+            box-shadow: 0 0 15px #00ff88;
+            outline: none;
+        }
+
+        /* Button Styling */
+        button {
+            padding: 15px 30px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #00ff88, #00cc66);
+            color: #1e1e2f;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px #00ff88;
+        }
+
+        /* Result Styling */
+        #results {
+            margin-top: 20px;
+            font-size: 1.5rem;
+            color: #00ff88;
+            text-shadow: 0 0 20px #00ff88;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Chart Styling */
+        canvas {
+            margin-top: 20px;
+            max-width: 100%;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            input {
+                padding: 10px;
+            }
+
+            button {
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="container">
+        <h1>Galactic Carbon Footprint Calculator</h1>
+        <form id="carbon-footprint-form">
+            <label for="electricity">Electricity (kWh):</label>
+            <input type="number" id="electricity" name="electricity" required>
+
+            <label for="gas">Natural Gas (therms):</label>
+            <input type="number" id="gas" name="gas" required>
+
+            <label for="fuel">Fuel Oil (gallons):</label>
+            <input type="number" id="fuel" name="fuel" required>
+
+            <label for="miles">Miles Driven (miles):</label>
+            <input type="number" id="miles" name="miles" required>
+
+            <label for="flights">Flights (hours):</label>
+            <input type="number" id="flights" name="flights" required>
+
+            <label for="waste">Waste (pounds):</label>
+            <input type="number" id="waste" name="waste" required>
+
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="results"></div>
+        <canvas id="footprintChart" width="400" height="200"></canvas>
+    </div>
+    <script>
+        document.getElementById('carbon-footprint-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const electricity = parseFloat(document.getElementById('electricity').value) || 0;
+            const gas = parseFloat(document.getElementById('gas').value) || 0;
+            const fuel = parseFloat(document.getElementById('fuel').value) || 0;
+            const miles = parseFloat(document.getElementById('miles').value) || 0;
+            const flights = parseFloat(document.getElementById('flights').value) || 0;
+            const waste = parseFloat(document.getElementById('waste').value) || 0;
+
+            // Carbon footprint conversion factors (in kg CO2)
+            const electricityFactor = 0.233; // kg CO2 per kWh
+            const gasFactor = 5.3; // kg CO2 per therm
+            const fuelFactor = 10.16; // kg CO2 per gallon
+            const milesFactor = 0.411; // kg CO2 per mile
+            const flightsFactor = 90; // kg CO2 per flight hour
+            const wasteFactor = 0.73; // kg CO2 per pound
+
+            const emissions = {
+                electricity: electricity * electricityFactor,
+                gas: gas * gasFactor,
+                fuel: fuel * fuelFactor,
+                miles: miles * milesFactor,
+                flights: flights * flightsFactor,
+                waste: waste * wasteFactor
+            };
+
+            const totalEmissions = Object.values(emissions).reduce((a, b) => a + b, 0);
+
+            document.getElementById('results').innerHTML = `
+                <h2>Your Carbon Footprint</h2>
+                <p>Electricity: ${emissions.electricity.toFixed(2)} kg CO2</p>
+                <p>Natural Gas: ${emissions.gas.toFixed(2)} kg CO2</p>
+                <p>Fuel Oil: ${emissions.fuel.toFixed(2)} kg CO2</p>
+                <p>Miles Driven: ${emissions.miles.toFixed(2)} kg CO2</p>
+                <p>Flights: ${emissions.flights.toFixed(2)} kg CO2</p>
+                <p>Waste: ${emissions.waste.toFixed(2)} kg CO2</p>
+                <p><strong>Total: ${totalEmissions.toFixed(2)} kg CO2</strong></p>
+            `;
+
+            const ctx = document.getElementById('footprintChart').getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Electricity', 'Natural Gas', 'Fuel Oil', 'Miles Driven', 'Flights', 'Waste'],
+                    datasets : [{
+                        label: 'Carbon Footprint Breakdown',
+                        data: [
+                            emissions.electricity,
+                            emissions.gas,
+                            emissions.fuel,
+                            emissions.miles,
+                            emissions.flights,
+                            emissions.waste
+                        ],
+                        backgroundColor: [
+                            '#FF6384',
+                            '#36A2EB',
+                            '#FFCE56',
+                            '#FF9F40',
+                            '#4BC0C0',
+                            '#9966FF'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Carbon Footprint Breakdown'
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

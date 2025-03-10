@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News App</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2rem;
+            color: #333;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 20px 0;
+            border: none;
+            border-radius: 25px;
+            background-color: #007bff;
+            color: #ffffff;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #news-result {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .news-item {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .news-item h2 {
+            margin: 0 0 10px;
+            font-size: 1.5rem;
+            color: #007bff;
+        }
+
+        .news-item p {
+            margin: 0;
+            color: #555;
+        }
+
+        .news-item img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .news-item h2 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Latest News</h1>
+        <button id="get-news">Get News</button>
+        <div id="news-result"></div>
+    </div>
+    <script>
+        document.getElementById('get-news').addEventListener('click', () => {
+            const apiKey = '5gaVMejwinZ5bxlizWo4wmXsngO50nB_bUeTU3c5-B_cQFpN'; // Your valid Currents API key
+            const url = `https://api.currentsapi.services/v1/latest-news?apiKey=${apiKey}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const newsContainer = document.getElementById('news-result');
+                    newsContainer.innerHTML = '';
+
+                    data.news.forEach(article => {
+                        const newsItem = document.createElement('div');
+                        newsItem.classList.add('news-item');
+
+                        const image = document.createElement('img');
+                        image.src = article.image || 'https://via.placeholder.com/600x400'; // Placeholder if no image available
+                        image.onerror = () => {
+                            image.src = 'https://via.placeholder.com/600x400'; // Fallback for broken images
+                        };
+
+                        const title = document.createElement('h2');
+                        title.innerText = article.title;
+
+                        const description = document.createElement('p');
+                        description.innerText = article.description;
+
+                        newsItem.appendChild(image);
+                        newsItem.appendChild(title);
+                        newsItem.appendChild(description);
+                        newsContainer.appendChild(newsItem);
+                    });
+                })
+                .catch(error => {
+                    document.getElementById('news-result').innerHTML = `<p>Error fetching news: ${error.message}</p>`;
+                });
+        });
+    </script>
+</body>
+</html>
