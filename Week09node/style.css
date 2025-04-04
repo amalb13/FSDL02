@@ -1,0 +1,96 @@
+/* Background Themes */
+body {
+    background: linear-gradient(135deg, #161616, #1f1f1f);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Card Styles */
+.card {
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+.bg-dark-gradient {
+    background: linear-gradient(135deg, #212121, #292929);
+}
+
+.text-white {
+    color: #fff !important;
+}
+
+/* Input Styles */
+.form-control {
+    border: 1px solid #555;
+    box-shadow: none;
+}
+
+.form-control:focus {
+    border-color: #17a2b8;
+    box-shadow: 0 0 0 2px rgba(23, 162, 184, 0.5);
+}
+
+/* Button Hover Animation */
+.btn {
+    font-size: 1.2rem;
+    font-weight: 600;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+    transform: scale(1.08);
+    background: #20c997;
+}
+
+/* Student Cards */
+.card-body .row {
+    gap: 15px;
+}
+
+.student-card {
+    background: linear-gradient(135deg, #262626, #333333);
+    border-radius: 10px;
+    padding: 20px;
+    color: #fff;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.student-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+.student-card .card-header {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.student-card .card-body {
+    font-size: 0.9rem;
+}
+
+.student-card .actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.actions .btn-warning:hover {
+    background-color: #ffab00;
+}
+
+.actions .btn-danger:hover {
+    background-color: #e63939;
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+    .student-card {
+        font-size: 0.85rem;
+        padding: 15px;
+    }
+
+    .actions .btn {
+        font-size: 0.75rem;
+    }
+}
