@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html ng-app="studentApp">
+<head>
+    <title>Student Record</title>
+    <!-- Link the CSS file -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Include AngularJS Library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body ng-controller="StudentController">
+    <h1>Student Record</h1>
+
+    <form name="studentForm" novalidate>
+        <label>Name:</label>
+        <input type="text" name="studentName" ng-model="student.name" required />
+        <span ng-show="studentForm.studentName.$error.required">Name is required.</span>
+
+        <label>Age:</label>
+        <input type="number" name="studentAge" ng-model="student.age" required />
+        <span ng-show="studentForm.studentAge.$error.required">Age is required.</span>
+
+        <label>Email:</label>
+        <input type="email" name="studentEmail" ng-model="student.email" required />
+        <span ng-show="studentForm.studentEmail.$error.required">Email is required.</span>
+
+        <label>Phone Number:</label>
+        <input type="tel" name="studentPhone" ng-model="student.phone" required pattern="[0-9]{10}" />
+        <span ng-show="studentForm.studentPhone.$error.required">Phone number is required.</span>
+
+        <label>Class/Grade Level:</label>
+        <select ng-model="student.class" required>
+            <option value="">Select Grade</option>
+            <option value="Grade 1">Grade 1</option>
+            <option value="Grade 2">Grade 2</option>
+            <option value="Grade 3">Grade 3</option>
+            <option value="Grade 4">Grade 4</option>
+        </select>
+        <span ng-show="!student.class">Class/Grade is required.</span>
+
+        <button ng-click="addStudent()" ng-disabled="!studentForm.$valid">Add Student</button>
+    </form>
+    
+    <ul>
+        <li ng-repeat="student in students">
+            <strong>Name:</strong> {{student.name}}, 
+            <strong>Age:</strong> {{student.age}}, 
+            <strong>Email:</strong> {{student.email}}, 
+            <strong>Phone:</strong> {{student.phone}}, 
+            <strong>Class:</strong> {{student.class}}
+        </li>
+    </ul>
+
+    <!-- Link the JavaScript file -->
+    <script src="app.js"></script>
+</body>
+</html>
