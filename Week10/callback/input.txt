@@ -1,0 +1,2 @@
+Hello, this is a callback example.
+Node.js is awesome!
